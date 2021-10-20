@@ -21,7 +21,7 @@ public class Main {
         baseState.setNextOption(3, base3);
 
 
-        Orchestrator orchestrator = new Orchestrator(baseState);
+        Orchestrator orchestrator = new Orchestrator(baseState, 3);
         orchestrator.execute();
     }
 

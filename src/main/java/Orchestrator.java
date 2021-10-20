@@ -6,10 +6,10 @@ public class Orchestrator {
     private InputReader reader;
     private SequenceCommandInvoker commandInvoker;
 
-    public Orchestrator(IVRState baseState) {
+    public Orchestrator(IVRState baseState, int maxFailureAttempts) {
         this.baseState = baseState;
         this.reader = new ConsoleInputReader();
-        this.commandInvoker = new SequenceCommandInvoker(baseState);
+        this.commandInvoker = new SequenceCommandInvoker(baseState, maxFailureAttempts);
     }
 
     public void execute() {

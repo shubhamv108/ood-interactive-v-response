@@ -6,9 +6,11 @@ public class SequenceCommandInvoker {
     private IVRState state;
     private final List<IVRCommand> commands = new ArrayList<>();
     private int currentSequenceNumber = -1;
+    private Integer maxFailures;
 
-    public SequenceCommandInvoker(IVRState state) {
+    public SequenceCommandInvoker(IVRState state, Integer maxFailures) {
         this.state = state;
+        this.maxFailures = maxFailures;
     }
 
     public void invoke(String input) {
@@ -18,6 +20,17 @@ public class SequenceCommandInvoker {
             command = new IVRValidInputCommand(input);
         } catch (Exception exception) {
             command = new IVRInvalidInputCommand(input);
+            if (this.maxFailures != null && this.currentSequenceNumber >= this.maxFailures - 2) {
+                int i = currentSequenceNumber;
+                while (i >= currentSequenceNumber - maxFailures + 2)
+                    if (this.getCommand(i) instanceof IVRInvalidInputCommand)
+                        i--;
+                    else break;
+                if (i < currentSequenceNumber - maxFailures + 2) {
+                    System.out.println("Ending call");
+                    System.exit(0);
+                }
+            }
         }
         this.invoke(command);
     }
@@ -37,7 +50,11 @@ public class SequenceCommandInvoker {
     }
 
     public IVRCommand getLastExecutedCommand() {
-        return this.getCommands().get(this.getCurrentSequenceNumber());
+        return this.getCommand(this.getCurrentSequenceNumber());
+    }
+
+    private IVRCommand getCommand(int sequenceNumber) {
+        return this.getCommands().get(sequenceNumber);
     }
 
     private int getCurrentSequenceNumber() {
