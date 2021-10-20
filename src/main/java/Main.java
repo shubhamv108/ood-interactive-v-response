@@ -16,9 +16,9 @@ public class Main {
                 .withOptionText("Please press 3 for Broadband")
                 .withBaseState(baseState)
                 .build();
-        baseState.setOption(1, base1);
-        baseState.setOption(2, base2);
-        baseState.setOption(3, base3);
+        baseState.setNextOption(1, base1);
+        baseState.setNextOption(2, base2);
+        baseState.setNextOption(3, base3);
 
 
         Orchestrator orchestrator = new Orchestrator(baseState);

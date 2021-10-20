@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class SequenceCommandInvoker {
 
@@ -15,7 +14,7 @@ public class SequenceCommandInvoker {
     public void invoke(String input) {
         IVRCommand command = null;
         try {
-            this.state = this.state.setNext(Integer.valueOf(input));
+            this.state = this.state.getNext(Integer.valueOf(input));
             command = new IVRValidInputCommand(input);
         } catch (Exception exception) {
             command = new IVRInvalidInputCommand(input);

@@ -15,9 +15,8 @@ public class Orchestrator {
     public void execute() {
         System.out.println(baseState.getOptions());
         Iterator<String> iterator = this.reader.iterator();
-        while (iterator.hasNext()) {
+        while (iterator.hasNext())
             this.commandInvoker.invoke(iterator.next());
-        }
     }
 
 }
