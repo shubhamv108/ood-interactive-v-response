@@ -1,8 +1,9 @@
-                               IVR for Call
+## IVR for Call
 
-Problem Statement
+### Problem Statement
 When a user contacts Customer Support, there are a set of options (called IVR - interactive Voice Response) that are presented to the user to help narrow down the issue and reach out to the right Support Agent that can help them.
-Eg: IVR session for Telecom:
+
+#### Eg: IVR session for Telecom:
 Please press 1 for Prepaid connection
 Please press 2 for Postpaid connection
 Please press 3 for Broadband
@@ -16,6 +17,7 @@ Voice says: Your current bill is ₹ 245
 Press 8 to go back to the previous menu
 Press 9 to go back to the main menu
 Please disconnect to end this call
+
 In this question, we are going to develop a simple IVR service that:
 Starts a new IVR for a user if there is no IVR in progress
 Returns initial set of options for the user

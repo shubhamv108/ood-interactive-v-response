@@ -13,14 +13,14 @@ public class Orchestrator {
     private final InputReader reader;
     private final SequenceCommandInvoker commandInvoker;
     private final Long inputWaitTimeout;
-    private final Integer maxInputTimeoutRetries;
+    private final Integer maxInputRetries;
 
     public Orchestrator(IVROption baseOption, int maxRetryAttempts, Long waitTimeout) {
         this.curOption = baseOption;
         this.reader = new ConsoleInputReader();
         this.commandInvoker = new SequenceCommandInvoker(baseOption, maxRetryAttempts);
         this.inputWaitTimeout = waitTimeout;
-        this.maxInputTimeoutRetries = maxRetryAttempts;
+        this.maxInputRetries = maxRetryAttempts;
     }
 
     public void execute() throws InterruptedException {
@@ -28,23 +28,22 @@ public class Orchestrator {
         Iterator<String> iterator = this.reader.iterator();
 
         Integer curInputTimeoutRetries = 0;
-        while (curInputTimeoutRetries < this.maxInputTimeoutRetries) {
+        while (curInputTimeoutRetries < this.maxInputRetries) {
             Long nextTimeout = System.currentTimeMillis() + this.inputWaitTimeout;
             while (!iterator.hasNext()) {
                 if (System.currentTimeMillis() >= nextTimeout) {
-                    if (++curInputTimeoutRetries < this.maxInputTimeoutRetries)
+                    if (++curInputTimeoutRetries < this.maxInputRetries)
                         System.out.println("Please press your option");
-                    else {
-                        System.out.println("Ending call");
+                    else
                         return;
-                    }
                     nextTimeout = System.currentTimeMillis() + this.inputWaitTimeout;
                 }
             }
-            if (iterator.hasNext()) {
-                curInputTimeoutRetries = 0;
-                this.commandInvoker.invoke(iterator.next());
-            }
+            if (iterator.hasNext())
+                if (this.commandInvoker.invoke(iterator.next()))
+                    curInputTimeoutRetries = 0;
+                else if (++curInputTimeoutRetries < this.maxInputRetries)
+                    System.out.println("You have not provided the right input. Please try again");
         }
     }
 

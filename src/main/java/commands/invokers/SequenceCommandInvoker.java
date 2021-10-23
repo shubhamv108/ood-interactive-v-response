@@ -20,7 +20,7 @@ public class SequenceCommandInvoker {
         this.maxFailures = maxFailures;
     }
 
-    public void invoke(String input) {
+    public boolean invoke(String input) {
         IVRCommand command = null;
         try {
             this.state = this.state.getNext(Integer.valueOf(input));
@@ -40,6 +40,7 @@ public class SequenceCommandInvoker {
             }
         }
         this.invoke(command);
+        return command instanceof IVRValidInputCommand;
     }
 
     private void invoke(IVRCommand command) {

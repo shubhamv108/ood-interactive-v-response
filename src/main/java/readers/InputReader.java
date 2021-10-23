@@ -18,8 +18,8 @@ public abstract class InputReader implements Iterable<String> {
             next = InputReader.this.bufferedReader.readLine();
             if (next != null)
                 next = next.trim();
-            if (next == null || next.isBlank())
-                return this.acceptNext();
+//            if (next == null || next.isBlank())
+//                return this.acceptNext();
         } catch (IOException e) {
             System.out.println("Invalid input");
         }
