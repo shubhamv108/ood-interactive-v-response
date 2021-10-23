@@ -1,40 +1,41 @@
+package options;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-public class IVRState {
+public class IVROption {
 
     private final String optionText;
-    private IVRState parent;
+    private IVROption parent;
 
-    private final Map<Integer, IVRState> ivrSubStates;
+    private final Map<Integer, IVROption> nextOptions;
 
-    public IVRState(String optionText, Map<Integer, IVRState> ivrSubStates) {
+    public IVROption(String optionText, Map<Integer, IVROption> nextOptions) {
         this.optionText = optionText;
-        this.ivrSubStates = ivrSubStates;
-        this.ivrSubStates.forEach((k, v) -> {
+        this.nextOptions = nextOptions;
+        this.nextOptions.forEach((k, v) -> {
             if (k != 8 && k != 9)
                 v.setParent(this);
         });
     }
 
-    private void setParent(IVRState parent) {
+    private void setParent(IVROption parent) {
         this.parent = parent;
-        this.ivrSubStates.put(8, parent);
+        this.nextOptions.put(8, parent);
     }
 
-    public IVRState getNext(Integer input) {
-        IVRState next = this.ivrSubStates.get(input);
-        if (next == null) {
+    public IVROption getNext(Integer input) {
+        IVROption next = this.nextOptions.get(input);
+        if (next == null)
             throw new IllegalArgumentException("You have not provided the right input. Please try again");
-        }
         return next;
     }
 
-    public void setNextOption(int number, IVRState state) {
-        this.ivrSubStates.putIfAbsent(number, state);
+    public void setNextOption(int number, IVROption state) {
+        this.nextOptions.putIfAbsent(number, state);
         state.setParent(this);
     }
 
@@ -43,7 +44,7 @@ public class IVRState {
     }
 
     public List<String> getOptions() {
-        List<String> options = this.ivrSubStates.entrySet()
+        List<String> options = this.nextOptions.entrySet()
                 .stream()
                 .map(entry -> {
                     if (entry.getValue() == this.parent)
@@ -54,7 +55,7 @@ public class IVRState {
                 .filter(Objects::nonNull)
                 .filter(e -> !e.isBlank())
                 .collect(Collectors.toList());
-        if (this.ivrSubStates.containsKey(9))
+        if (this.nextOptions.containsKey(9))
             options.add("Press 9 to go back to the main menu");
         options.add("Please disconnect to end this call");
         return options;
@@ -66,25 +67,25 @@ public class IVRState {
 
     public static class IVRStateBuilder {
         private String optionText;
-        private final Map<Integer, IVRState> ivrSubStatesPrototypes= new TreeMap<>();
+        private final Map<Integer, IVROption> ivrSubStatesPrototypes= new TreeMap<>();
 
         public IVRStateBuilder withOptionText(String optionText) {
             this.optionText = optionText;
             return this;
         }
 
-        public IVRStateBuilder withOption(int number, IVRState state) {
+        public IVRStateBuilder withNextOption(int number, IVROption state) {
             this.ivrSubStatesPrototypes.putIfAbsent(number, state);
             return this;
         }
 
-        public IVRStateBuilder withBaseState(IVRState baseState) {
+        public IVRStateBuilder withBaseState(IVROption baseState) {
             this.ivrSubStatesPrototypes.put(9, baseState);
             return this;
         }
 
-        public IVRState build() {
-            return new IVRState(optionText, ivrSubStatesPrototypes);
+        public IVROption build() {
+            return new IVROption(optionText, ivrSubStatesPrototypes);
         }
     }
 

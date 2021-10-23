@@ -1,3 +1,7 @@
+package commands;
+
+import options.IVROption;
+
 public abstract class IVRCommand {
 
     private final String number;
@@ -6,8 +10,8 @@ public abstract class IVRCommand {
         this.number = number;
     }
 
-    public void execute(IVRState state) {
-        System.out.println(state.getOptions());
+    public void execute(IVROption state) {
+        state.getOptions().forEach(System.out::println);
     }
 
 }

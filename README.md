@@ -21,7 +21,7 @@ Starts a new IVR for a user if there is no IVR in progress
 Returns initial set of options for the user
 Each option has a numeric identifier to indicate the selected option
 At every level of the IVR there can be an option to go back 1 step (fixed at digit 8) and go back to start of the IVR (fixed at digit 9)
-User can either choose an option by pressing an appropriate number or can disconnect the call
+actors.User can either choose an option by pressing an appropriate number or can disconnect the call
 When the user chooses an option, then system processes the input and moves to the next level of IVR or move back to the previous level (option 8) or first level (option 9)
 When the user disconnects the call, IVR will end
 
@@ -29,7 +29,7 @@ Extension scenario (Bonus)
 Build retry for the following scenario:
 
 
-If User waits for more than 1 minute before providing their input.
+If actors.User waits for more than 1 minute before providing their input.
 Candidate can chose to model timeout in the code; or
 Can expect a timeout event
 provides a wrong input
@@ -41,7 +41,7 @@ IVR menus/levels are not fixed and hence do not hard code IVR menu options.
 For the purpose of this question, assume that for a given user, IVR levels and menu items are fixed
 Assume that the following events are triggered by calling system:
 Start of call
-User Input
+actors.User Input
 End of call
 IVR may contain
 A message

@@ -1,14 +1,21 @@
+package commands.invokers;
+
+import commands.IVRCommand;
+import commands.IVRInvalidInputCommand;
+import commands.IVRValidInputCommand;
+import options.IVROption;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SequenceCommandInvoker {
 
-    private IVRState state;
+    private IVROption state;
     private final List<IVRCommand> commands = new ArrayList<>();
     private int currentSequenceNumber = -1;
     private Integer maxFailures;
 
-    public SequenceCommandInvoker(IVRState state, Integer maxFailures) {
+    public SequenceCommandInvoker(IVROption state, Integer maxFailures) {
         this.state = state;
         this.maxFailures = maxFailures;
     }

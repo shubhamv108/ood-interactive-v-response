@@ -1,18 +1,21 @@
-public class Main {
-    public static void main(String[] args) {
+import options.IVROption;
+import orchetrator.Orchestrator;
 
-        IVRState baseState = IVRState.builder()
+public class Main {
+    public static void main(String[] args) throws InterruptedException {
+
+        IVROption baseState = IVROption.builder()
                 .withOptionText("")
                 .build();
-        IVRState base1 = IVRState.builder()
+        IVROption base1 = IVROption.builder()
                 .withOptionText("Please press 1 for Prepaid connection")
                 .withBaseState(baseState)
                 .build();
-        IVRState base2 = IVRState.builder()
+        IVROption base2 = IVROption.builder()
                 .withOptionText("Please press 2 for Postpaid connection")
                 .withBaseState(baseState)
                 .build();
-        IVRState base3 = IVRState.builder()
+        IVROption base3 = IVROption.builder()
                 .withOptionText("Please press 3 for Broadband")
                 .withBaseState(baseState)
                 .build();
@@ -21,7 +24,7 @@ public class Main {
         baseState.setNextOption(3, base3);
 
 
-        Orchestrator orchestrator = new Orchestrator(baseState, 3);
+        Orchestrator orchestrator = new Orchestrator(baseState, 3, 10000L);
         orchestrator.execute();
     }
 
