@@ -49,39 +49,3 @@ IVR may contain
 A message
 A list of options
 Continue with IVR or not
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Evaluation Criteria
-
-Demonstration, Modelling and Extensibility of your Code.
-Clean Professional Code.
-A demonstration of the functional requirements stated above.
-For the demonstration, you can choose any of - CLI, API, Unit tests or even the main method.
-
-
-Additional Notes
-
-You may use any programming language.
-Database is optional. We don’t recommend setting up a db, it takes a lot of time. In-memory stores are acceptable for storing data.
-You may access documentation and any other resources as needed.
-
-
-Interviewer: Arun Kumar
-Phone No : 8892620049
